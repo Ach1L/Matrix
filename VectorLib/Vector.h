@@ -2,7 +2,7 @@
 #include <iostream>
 template<typename T>
 class TVectorIterator;
-
+const int MAX_VECTOR_SIZE = 100000000;
 template<typename T>
 class TDynamicVector
 {
@@ -35,7 +35,7 @@ public:
 
   TDynamicVector operator+(const TDynamicVector& v);
   TDynamicVector operator-(const TDynamicVector& v);
-  T operator*(const TDynamicVector& v) noexcept(noexcept(T()));
+  T operator*(const TDynamicVector& v);
 
   template<typename T>
   friend std::istream& operator>>(std::istream& istr, TDynamicVector<T>& v);
@@ -68,6 +68,8 @@ inline TDynamicVector<T>::TDynamicVector(size_t size)
 {
   if (size <= 0)
     throw "TDynamicVector size <= 0";
+  if (size > MAX_VECTOR_SIZE)
+    throw "size > MAX_VECTOR_SIZE";
   sz = size;
   pMem = new T[size];
 
@@ -248,6 +250,7 @@ inline TDynamicVector<T> TDynamicVector<T>::operator*(double val)
 {
   if (pMem == nullptr)
     throw "operator* : pMem == nullptr";
+
   TDynamicVector<T> res(*this);
   for (int i = 0; i < sz; i++)
     res.pMem[i] *= val;
@@ -281,7 +284,7 @@ inline TDynamicVector<T> TDynamicVector<T>::operator-(const TDynamicVector& v)
 }
 
 template<typename T>
-inline T TDynamicVector<T>::operator*(const TDynamicVector& v) noexcept(noexcept(T()))
+inline T TDynamicVector<T>::operator*(const TDynamicVector& v)
 {
   if (pMem == nullptr)
     throw "operator* : pMem == nullptr";

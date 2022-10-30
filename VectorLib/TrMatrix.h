@@ -1,5 +1,8 @@
 #pragma once
 #include "Vector.h"
+
+const int MAX_TRMATRIX_SIZE = 10000;
+
 template<typename T>
 class TTrMatrix : public TDynamicVector<TDynamicVector<T>>
 {
@@ -9,6 +12,9 @@ public:
 
   TTrMatrix<T> operator*(const TTrMatrix<T>& p);
   TTrMatrix<T> operator+(const TTrMatrix<T>& p);
+  TTrMatrix<T> operator-(const TTrMatrix<T>& p);
+  bool operator==(const TTrMatrix<T>& p);
+  bool operator!=(const TTrMatrix<T>& p);
 
   template<typename T>
   friend std::istream& operator>>(std::istream& istr, TTrMatrix<T>& v);
@@ -21,6 +27,8 @@ inline TTrMatrix<T>::TTrMatrix(size_t size)
 {
   if (size < 1)
     throw "size < 1";
+  if (size > MAX_TRMATRIX_SIZE)
+    throw "size > MAX_TRMATRIX_SIZE";
   pMem = new TDynamicVector<T>[size];
   sz = size;
   for (int i = 0; i < sz; i++)
@@ -28,11 +36,7 @@ inline TTrMatrix<T>::TTrMatrix(size_t size)
 }
 
 template<typename T>
-inline TTrMatrix<T>::~TTrMatrix()
-{
-}
-
-
+inline TTrMatrix<T>::~TTrMatrix(){}
 
 template<typename T>
 inline TTrMatrix<T> TTrMatrix<T>::operator*(const TTrMatrix<T>& p)
@@ -63,6 +67,40 @@ inline TTrMatrix<T> TTrMatrix<T>::operator+(const TTrMatrix<T>& p)
       if (i >= j)
         res[i][j] = (*this)[i][j] + p[i][j];
   return res;
+}
+
+template<typename T>
+inline TTrMatrix<T> TTrMatrix<T>::operator-(const TTrMatrix<T>& p)
+{
+  if (sz != p.sz)
+    throw "operator+ : sz != p.sz";
+  TTrMatrix<T> res(sz);
+  for (int i = 0; i < sz; i++)
+    for (int j = 0; j < sz; j++)
+      if (i >= j)
+        res[i][j] = (*this)[i][j] - p[i][j];
+  return res;
+}
+
+template<typename T>
+inline bool TTrMatrix<T>::operator==(const TTrMatrix<T>& p)
+{
+  if (p.sz != this->sz)
+    return false;
+  for (int i = 0; i < sz; i++)
+    for (int j = 0; j < sz; j++)
+      if (i >= j)
+      {
+        if (p[i][j] != (*this)[i][j])
+          return false;
+      }
+  return true;
+}
+
+template<typename T>
+inline bool TTrMatrix<T>::operator!=(const TTrMatrix<T>& p)
+{
+  return !(this->operator==(p));
 }
 
 template<typename T>

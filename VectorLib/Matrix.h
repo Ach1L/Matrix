@@ -1,13 +1,11 @@
 #pragma once
 #include "Vector.h"
 #include <iostream>
+const int MAX_MATRIX_SIZE = 10000;
 template<typename T>
-class TDynamicMatrix : private TDynamicVector < TDynamicVector < T>>
+class TDynamicMatrix : public TDynamicVector < TDynamicVector < T>>
 {
-  using TDynamicVector <TDynamicVector <T>>::pMem;
-  using TDynamicVector <TDynamicVector <T>>::sz;
 public:
-  using TDynamicVector <TDynamicVector <T>>::operator[];
 TDynamicMatrix(size_t size = 1);
 virtual ~TDynamicMatrix() {};
 
@@ -30,6 +28,8 @@ friend std::ostream& operator<<(std::ostream& ostr, const TDynamicMatrix<T>& v);
 template<typename T>
 inline TDynamicMatrix<T>::TDynamicMatrix(size_t size) : TDynamicVector<TDynamicVector<T>>(size)
 {
+  if (size > MAX_MATRIX_SIZE)
+    throw "size > MAX_MATRIX_SIZE";
   for (size_t i = 0; i < sz; i++)
     pMem[i] = TDynamicVector<T>(sz);
 }

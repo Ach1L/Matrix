@@ -1,66 +1,50 @@
-#include "Vector.h"
-#include "Matrix.h"
-#include "TrMatrix.h"
 #include "TapeMatrix.h"
 #include <iostream>
 int main()
 {
-  //int n = 3;
-  //TDynamicVector<int> a(n), c(n);
-  //for (int i = 0; i < n; i++)
-  //  a[i] = i + 2;
-  //TDynamicVector<int> b = a;
-  //c = a + b;
-  //std::cout << c<<std::endl;
-  //c = c + 1;
-  //std::cout << c << std::endl;
-
-  //for (auto i = c.begin(); i != c.end(); ++i)
-  //  std::cout << *i << ' ';
-  //std::cout << std::endl << std::endl;
-
-  //TDynamicMatrix<int> A(3);
-  //TDynamicMatrix<int> B(3);
-  //for (int i = 0; i < n; i++)
-  //  for (int j = 0; j < n; j++)
-  //    A[i][j] = i + 2 - j;
-  //B = A;
-  //std::cout << B;
-
-  //TDynamicMatrix<int> C = A;
-  //std::cout << C;
-  //
-  //C = C + A*2;
-
-  //TDynamicMatrix<int> D(C);
-  //std::cout << D;
-
-  //D = C * A;
-  //std::cout << D;
-
-  //a = D * c;
-  //std::cout << a;
-
-  /*TTrMatrix<int> X(4),Y(4);
-  for (int i = 0; i < 4; i++)
-    for (int j = 0; j < 4; j++)
-      if (i >= j)
-      {
-        X[i][j] = i + j;
-        Y[i][j] = i - j + 5;
-      }
-  std::cout << X << std::endl << Y << std::endl;
-  TTrMatrix<int> Z(4);
-  Z = X + Y;
-
-  TTrMatrix<int> V(Z);
-  std::cout << V << std::endl;
-
-  Z = X * Y;
-  std::cout << Z;*/
-
-  TTapeMatrix<int> G(4, 2);
-  std::cin >> G;
-  std::cout << G;
+  TTapeMatrix<int> G(5, 3);
+  TTapeMatrix<int> H(5, 2);
+  TTapeMatrix<int> J(5, 3);
+  TTapeMatrix<int> Y(G);
+  int i = 0, k = 0, j = 0, b = 0;
+  int* o = new int[3];
+  for (; j < 3; j++)
+  {
+    for (i = 0; i < 5; i++)
+    {
+      G[3 - j + i - 1][k] = i + j - k;
+      if (k < j)
+        k++;
+      b = 3 - j + i;
+      if (b == 3 * 2 - 1)
+        break;
+    }
+    if (i != 5 - 1)
+      o[j] = i + 1;
+    k = 0;
+  }
+  int c = 5 - 3 - 1;
+  if (c == 0)
+    c = 1;
+  if (c == 2)
+    c = 1;
+  k = 1;
+  for (j = 5 - 3 - 1; j > -1; j--)
+  {
+    for (i = 0; i < o[j]; i++)
+    {
+      G[i][k] = i + k - j;
+      if (i < 3 - 1)
+        k++;
+    }
+    c++;
+    k = c;
+  }
+  std::cin >> H;//1 2 3 4 5 6 7 8 9 10 11 12 13
+  std::cout << H;
+  J = H + G;
+  std::cout << J;
+  J = G;
+  std::cout << J;
   return 0;
 }
