@@ -5,10 +5,10 @@ template<typename T>
 class TTapeMatrix : public TDynamicVector<TDynamicVector<T>>
 {
 protected:
-  int rad;//кол-во ненулевых диагоналей = радиус * 2 - 1
+  int rad;//number of non-zero diagonals = radius * 2 - 1
   // d c e 0 0
   // b d c e 0
-  // a b d c e , r = 3, r = {a, b, d или d, c, e}
+  // a b d c e , r = 3, r = {a, b, d or d, c, e}
   // 0 a b d c
   // 0 0 a b d
 public:
@@ -27,9 +27,9 @@ public:
 template<typename T>
 inline TTapeMatrix<T>::TTapeMatrix(int size, int radius)
 {
-  if (radius < 1)//если радиус =0, то это нулевая матрица
+  if (radius < 1)//if radius = 0, then this is null matrix
     throw "Radius < 1";
-  if (radius >= size)//если радиус равен размеру, то это обыкновенная матрица и нет смысла рассматривать ее здесь
+  if (radius >= size)//if the radius is equal to the size, then this is an ordinary matrix and there is no point in considering it here
     throw "Radius >= size";
   if (size < 1)
     throw "size < 1";
@@ -51,7 +51,10 @@ inline TTapeMatrix<T>::TTapeMatrix(int size, int radius)
 }
 
 template<typename T>
-inline TTapeMatrix<T>::~TTapeMatrix(){}
+inline TTapeMatrix<T>::~TTapeMatrix()
+{
+  rad = 0;
+}
 
 template<typename T>
 inline TTapeMatrix<T>& TTapeMatrix<T>::operator*(const TTapeMatrix<T>& p)
