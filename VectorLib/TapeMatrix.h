@@ -51,7 +51,10 @@ inline TTapeMatrix<T>::TTapeMatrix(int size, int radius)
 }
 
 template<typename T>
-inline TTapeMatrix<T>::~TTapeMatrix(){}
+inline TTapeMatrix<T>::~TTapeMatrix()
+{
+  rad = 0;
+}
 
 template<typename T>
 inline TTapeMatrix<T>& TTapeMatrix<T>::operator*(const TTapeMatrix<T>& p)
